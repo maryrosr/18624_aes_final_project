@@ -5,7 +5,9 @@ module aes
     input logic reset,
     input logic go,
     input logic [WIDTH-1:0] ciphertext,
-    input logic [WIDTH-1:0] key,
+    input logic [10:0] [WIDTH-1:0] keys,
+    //input logic [WIDTH-1:0] key_in,
+
     output logic [WIDTH-1:0] plaintext,
     output logic ready
 );
@@ -14,7 +16,7 @@ module aes
     logic [127:0] round_key_in;
     logic [3:0] round_num;    
     
-    Round round_key_inst (.next_key(round_key_out), .round_key_in(round_key_in), .state_in(plaintext), .state_out(state_out), .round_num(round_num));
+    Round round_key_inst (.round_keys_in(keys), .state_in(plaintext), .state_out(state_out), .round_num(round_num));
     //enum logic [1:0] {WAIT, GO, DONE} state, next_state;
     logic going;
     always_ff @(posedge clk, posedge reset) begin
@@ -27,15 +29,15 @@ module aes
         end
         
         else if(go && ~going) begin
-            plaintext <= ciphertext ^ key;
-            round_key_in <= key;
+            plaintext <= ciphertext ^ keys[10];
+            //round_key_in <= key;
             ready <= 1'b0;
             going <= 1'b1;
         end
         else if(going && round_num > 4'd0 && plaintext != 128'b0) begin
             plaintext <= state_out;
             round_num <= round_num - 1;
-            round_key_in <= round_key_out;
+            //round_key_in <= round_key_out;
         end
         else if(round_num == 4'b0) begin
             // plaintext <= 128'b0;
@@ -43,7 +45,7 @@ module aes
             ready <= 1'b1;
             // round_key_in <= 128'b0;
         end
-        $display("output %h %d", plaintext, round_num);
+        //$display("output %h %d", plaintext, round_num);
     end
 
 endmodule

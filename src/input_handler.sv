@@ -2,7 +2,7 @@ module InputHandler
 (
     input logic clk, reset,
     input logic [4:0] index_pins,
-    input logic [3:0] info_pin,
+    input logic [3:0] info_pins,
     input logic go_btn, key_btn, ciphertext_btn,
     output logic go,
     output logic [127:0] key_in, ciphertext_in

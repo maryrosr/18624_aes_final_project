@@ -1,19 +1,19 @@
 module OutputHandler 
 (
     input logic clk, reset,
-    input logic [3:0] in_pins,
+    input logic [3:0] index_pins,
     input logic go_btn,
-    input logic [127:0]plaintext_out
+    input logic [127:0]plaintext_out,
     output logic [7:0] out_pins
 );
 
     always_ff @(posedge clk, posedge reset) begin
         if(reset) begin
             out_pins <= 12'b0;
-            count <= 3'b0;
+            
         end
         else if (go_btn) begin
-            case(in_pins[11:8]) 
+            case(index_pins) 
                 4'h0: out_pins <= plaintext_out[7:0];
                 4'h1: out_pins <= plaintext_out[15:8]; 
                 4'h2: out_pins <= plaintext_out[23:16];

@@ -5,7 +5,7 @@ module aes
     input logic reset,
     input logic go,
     input logic [WIDTH-1:0] ciphertext,
-    input logic [WIDTH-1:0] keys [10:0],
+    input logic [WIDTH*11-1:0] keys,
     output logic [WIDTH-1:0] plaintext,
     output logic ready
 );
@@ -26,7 +26,7 @@ module aes
         end
         
         else if(go && ~going) begin
-            plaintext <= ciphertext ^ keys[10];
+            plaintext <= ciphertext ^ keys[1407:1280];
             ready <= 1'b0;
             going <= 1'b1;
         end

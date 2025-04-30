@@ -2,7 +2,7 @@ module Round
 #(parameter WIDTH = 128)
 (
     input logic [3:0] round_num, 
-    input logic  [WIDTH-1:0] round_keys_in [10:0],
+    input logic  [WIDTH*11-1:0] round_keys_in,
     input logic [WIDTH-1:0] state_in,
     output logic [WIDTH-1:0] state_out
 );
@@ -16,16 +16,16 @@ module Round
     always_comb begin
         round_key = 128'hDEADBEEF;
         case(round_num)
-            4'd1: round_key = round_keys_in[0];
-            4'd2: round_key = round_keys_in[1];
-            4'd3: round_key = round_keys_in[2];
-            4'd4: round_key = round_keys_in[3];
-            4'd5: round_key = round_keys_in[4];
-            4'd6: round_key = round_keys_in[5];
-            4'd7: round_key = round_keys_in[6];
-            4'd8: round_key = round_keys_in[7];
-            4'd9: round_key = round_keys_in[8];
-            4'd10:round_key = round_keys_in[9];
+            4'd1: round_key = round_keys_in[127:0];
+            4'd2: round_key = round_keys_in[255:128];
+            4'd3: round_key = round_keys_in[383:256];
+            4'd4: round_key = round_keys_in[511:384];
+            4'd5: round_key = round_keys_in[639:512];
+            4'd6: round_key = round_keys_in[767:640];
+            4'd7: round_key = round_keys_in[895:768];
+            4'd8: round_key = round_keys_in[1023:896];
+            4'd9: round_key = round_keys_in[1151:1024];
+            4'd10:round_key = round_keys_in[1279:1152];
         endcase
     end
     assign addRoundKey_out = subbytes_out ^ round_key;

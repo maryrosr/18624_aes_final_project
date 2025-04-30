@@ -5,7 +5,7 @@ module my_chip
     output logic [11:0] io_out
 );
     logic go, aes_go;
-    logic [127:0] keys_out [10:0];
+    logic [1407:0] keys_out;
     logic go_btn, key_btn, ciphertext_btn;
     assign go_btn = io_in[11];
     assign key_btn = io_in[10];

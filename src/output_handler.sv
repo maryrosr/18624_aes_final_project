@@ -1,13 +1,13 @@
 module OutputHandler 
 (
-    input logic clk, reset,
+    input logic clock, reset,
     input logic [3:0] index_pins,
     input logic go_btn,
     input logic [127:0]plaintext_out,
     output logic [7:0] out_pins
 );
 
-    always_ff @(posedge clk, posedge reset) begin
+    always_ff @(posedge clock, posedge reset) begin
         if(reset) begin
             out_pins <= 12'b0;
             

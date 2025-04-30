@@ -1,7 +1,7 @@
 module aes 
 #(parameter WIDTH = 128)
 (
-    input logic clk,
+    input logic clock,
     input logic reset,
     input logic go,
     input logic [WIDTH-1:0] ciphertext,
@@ -16,7 +16,7 @@ module aes
     
     Round round_key_inst (.round_keys_in(keys), .state_in(plaintext), .state_out(state_out), .round_num(round_num));
     logic going;
-    always_ff @(posedge clk, posedge reset) begin
+    always_ff @(posedge clock, posedge reset) begin
         if(reset) begin
             plaintext <= 128'b0;
             round_num <= 4'd10;

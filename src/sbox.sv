@@ -4,7 +4,6 @@ module InvSbox
     output logic [7:0] out
 );
 
-    // used unique here to ensure no typos were made
     always_comb begin
         case (in)
             8'h63: out = 8'h00;

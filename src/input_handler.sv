@@ -1,13 +1,13 @@
 module InputHandler 
 (
-    input logic clk, reset,
+    input logic clock, reset,
     input logic [4:0] index_pins,
     input logic [3:0] info_pins,
     input logic go_btn, key_btn, ciphertext_btn,
     output logic go,
     output logic [127:0] key_in, ciphertext_in
 );
-    always_ff @(posedge clk, posedge reset) begin
+    always_ff @(posedge clock, posedge reset) begin
         if(reset) begin
             go <= 1'b0;
             key_in = 128'b0;

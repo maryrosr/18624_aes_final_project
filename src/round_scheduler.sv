@@ -1,6 +1,6 @@
 module key_scheduler 
 (
-    input logic clk, reset,
+    input logic clock, reset,
     input logic go, 
     input logic [127:0] key_in,
     output logic  [1407:0] keys_out,
@@ -9,7 +9,7 @@ module key_scheduler
     logic [3:0] round_num;
     logic [127:0] key_out, new_key;
     schedule scheduler( .round_num, .key_in(new_key), .key_out);
-    always_ff @(posedge clk, posedge reset) begin
+    always_ff @(posedge clock, posedge reset) begin
         if(reset) begin
             aes_go <= 1'b0;
             round_num <= 0;

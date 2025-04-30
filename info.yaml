@@ -3,7 +3,16 @@ project:
   source_files:
     - toplevel_chip.v
     - chip.sv
-    - decoder.v
+    - input_handler.sv
+    - inv_mixcolums.sv
+    - inv_shiftrows.sv
+    - output_handler.sv
+    - round_scheduler.sv
+    - round.sv
+    - sbox.sv
+    - scheduler.sv
+    - subbytes.sv
+    - aes.sv
   top_module:  "toplevel_chip"
 
 # As everyone will have access to all designs, try to make it easy for someone new to your design to know what

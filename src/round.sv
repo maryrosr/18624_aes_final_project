@@ -2,10 +2,9 @@ module Round
 #(parameter WIDTH = 128)
 (
     input logic [3:0] round_num, 
-    input logic [10:0] [WIDTH-1:0] round_keys_in,
+    input logic  [WIDTH-1:0] round_keys_in [10:0],
     input logic [WIDTH-1:0] state_in,
     output logic [WIDTH-1:0] state_out
-    //output logic [WIDTH-1:0] next_key
 );
     
     
@@ -34,7 +33,5 @@ module Round
     InvMixColumns mixcolumns_inst (.A_in(addRoundKey_out), .C_out(mixcols_out));
 
 
-    //InvSchedule schedule_inst (.round_num(round_num), .key_in(round_key_in), .key_out(round_key));
     assign state_out = (round_num == 1) ? addRoundKey_out: mixcols_out;
-    //assign next_key = round_key;
 endmodule

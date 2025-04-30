@@ -1,4 +1,3 @@
-//TODO: can potentially reduce logic here:
 module InvShiftRows 
 (
     input logic [127:0] state_in,

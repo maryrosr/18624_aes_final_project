@@ -3,7 +3,7 @@ module key_scheduler
     input logic clk, reset,
     input logic go, 
     input logic [127:0] key_in,
-    output logic [10:0] [127:0] keys_out,
+    output logic  [127:0] keys_out [10:0],
     output logic aes_go
 );
     logic [3:0] round_num;
@@ -12,8 +12,18 @@ module key_scheduler
     always_ff @(posedge clk, posedge reset) begin
         if(reset) begin
             aes_go <= 1'b0;
-            keys_out <= 'b0;
             round_num <= 0;
+            keys_out[0] <= 128'b0;
+            keys_out[1] <= 128'b0;
+            keys_out[2] <= 128'b0;
+            keys_out[3] <= 128'b0;
+            keys_out[4] <= 128'b0;
+            keys_out[5] <= 128'b0;
+            keys_out[6] <= 128'b0;
+            keys_out[7] <= 128'b0;
+            keys_out[8] <= 128'b0;
+            keys_out[9] <= 128'b0;
+            keys_out[10] <= 128'b0;
         end
         else if (go && round_num == 0) begin
             round_num <= round_num + 1;

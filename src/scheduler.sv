@@ -76,30 +76,3 @@ module schedule
     end
 
 endmodule
-
-module InvSchedule
-(
-  input logic [3:0] round_num,
-  input logic [127:0] key_in,
-  output logic [127:0] key_out
-);
-
-    logic [31:0] rot_word_out, sub_word_out, rcon_out;
-
-    RotWord rot_word_inst (.key_in(key_out[31:0]), .key_out(rot_word_out));
-    SubWord sub_word_inst (.key_in(rot_word_out), .key_out(sub_word_out));
-    Rcon rcon_inst (.round_num, .key_in(sub_word_out), .key_out(rcon_out));
-
-    assign key_out[95:64] = key_in[95:64] ^ key_in[127:96];
-    assign key_out[63:32] = key_in[63:32] ^ key_in[95:64];
-    assign key_out[31:0] = key_in[31:0] ^ key_in[63:32];
-    // always_comb begin
-    //     //key_out[127:96] = key_in[127:96] ^ rcon_out;
-    //     key_out[95:64] = key_in[95:64] ^ key_in[127:96];
-    //     key_out[63:32] = key_in[63:32] ^ key_in[95:64];
-    //     key_out[31:0] = key_in[31:0] ^ key_in[63:32];
-    // end
-
-    assign key_out[127:96] = rcon_out ^ key_in[127:96];
-
-endmodule

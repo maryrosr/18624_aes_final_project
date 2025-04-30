@@ -1,5 +1,5 @@
 module aes 
-#(parameter WIDTH = 128)
+#(parameter WIDTH = 16)
 (
     input logic clock,
     input logic reset,
@@ -10,27 +10,27 @@ module aes
     output logic ready
 );
 
-    logic [127:0] state_out, round_key_out, state_in;
-    logic [127:0] round_key_in;
+    logic [15:0] state_out, round_key_out, state_in;
+    logic [15:0] round_key_in;
     logic [3:0] round_num;    
     
     Round round_key_inst (.round_keys_in(keys), .state_in(plaintext), .state_out(state_out), .round_num(round_num));
     logic going;
     always_ff @(posedge clock, posedge reset) begin
         if(reset) begin
-            plaintext <= 128'b0;
+            plaintext <= 16'b0;
             round_num <= 4'd10;
-            round_key_in <= 128'b0;
+            round_key_in <= 16'b0;
             ready <= 1'b0;
             going <= 1'b0;
         end
         
         else if(go && ~going) begin
-            plaintext <= ciphertext ^ keys[1407:1280];
+            plaintext <= ciphertext ^ keys[175:160];
             ready <= 1'b0;
             going <= 1'b1;
         end
-        else if(going && round_num > 4'd0 && plaintext != 128'b0) begin
+        else if(going && round_num > 4'd0) begin
             plaintext <= state_out;
             round_num <= round_num - 1;
         end

@@ -1,48 +1,17 @@
-`default_nettype none
-
-module my_chip (
-    input logic [11:0] io_in, // Inputs to your chip
-    output logic [11:0] io_out, // Outputs from your chip
-    input logic clock,
-    input logic reset // Important: Reset is ACTIVE-HIGH
+module my_chip
+(
+    input logic clk, reset,
+    input logic [11:0] io_in,
+    output logic [11:0] io_out,
 );
-    
-    // Basic counter design as an example
-    // TODO: remove the counter design and use this module to insert your own design
-    // DO NOT change the I/O header of this design
-
-    wire [6:0] led_out;
-    assign io_out[6:0] = led_out;
-
-    // external clock is 1000Hz, so need 10 bit counter
-    reg [9:0] second_counter;
-    reg [3:0] digit;
-
-    always @(posedge clock) begin
-        // if reset, set counter to 0
-        if (reset) begin
-            second_counter <= 0;
-            digit <= 0;
-        end else begin
-            // if up to 16e6
-            if (second_counter == 1000) begin
-                // reset
-                second_counter <= 0;
-
-                // increment digit
-                digit <= digit + 1'b1;
-
-                // only count from 0 to 9
-                if (digit == 9)
-                    digit <= 0;
-
-            end else
-                // increment counter
-                second_counter <= second_counter + 1'b1;
-        end
-    end
-
-    // instantiate segment display
-    seg7 seg7(.counter(digit), .segments(led_out));
+    logic go;
+    logic go_btn, key_btn, ciphertext_btn;
+    assign go_btn = io_in[11];
+    assign key_btn = io_in[10];
+    assign ciphertext_btn = io_in[9];
+    logic [127:0] key_in, ciphertext_in, plaintext_out;
+    InputHandler input_handler_inst(.clk, .reset, .index_pins(io_in[8:4]), .info_pins(io_in[3:0]), .go_btn, .key_btn, .ciphertext_btn, .go, .key_in, .ciphertext_in);
+    aes aes_inst(.clk(clk), .ready(io_out[11]), .reset(reset), .go(go), .plaintext(plaintext_out), .key(key_in), .ciphertext(ciphertext_in));
+    OutputHandler output_handler_inst(.clk, .reset, .index_pins(io_in[8:5]), .go_btn, .plaintext_out .out_pins(io_out[7:0]));
 
 endmodule

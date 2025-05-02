@@ -8,10 +8,7 @@ module aes_tb();
     logic [11:0] io_in, io_out;
   logic [10:0] [15:0] keys_out;
     my_chip DUT (.clock, .reset, .io_in, .io_out);
-initial begin
-  $dumpfile("dump.vcd");
-  $dumpvars(0, aes_tb);
-end
+
 task golden_model(output logic [15:0] key_in, output logic [15:0] ciphertext_in, output logic [15:0] plaintext_check);
     
     // generating keys:
@@ -35,15 +32,15 @@ task golden_model(output logic [15:0] key_in, output logic [15:0] ciphertext_in,
         temp_key[3:0] = key_in[3:0] ^ temp_key[7:4];
         keys_out[i] = temp_key;
         key_in = temp_key;
-      $display("key %d %h", i, key_in);
+      //$display("key %d %h", i, key_in);
     end
     // AES:
     ciphertext_in = $urandom % 65536; // can also choose value
-  $display("Cipher %h", ciphertext_in);
+  //$display("Cipher %h", ciphertext_in);
 	key_in = temp1_key;
 
   round_in = ciphertext_in ^ keys_out[10];
-  $display("round_in %h %h", round_in, keys_out[10]);
+  //$display("round_in %h %h", round_in, keys_out[10]);
 
     for (int i = 10; i > 0; i-- ) begin
         // InvShift
@@ -66,14 +63,14 @@ task golden_model(output logic [15:0] key_in, output logic [15:0] ciphertext_in,
         round_out[13] = round_in[5]; 
         round_out[14] = round_in[2]; 
         round_out[15] = round_in[15];
-        $display("shift %d %h", i , round_out);
+        //$display("shift %d %h", i , round_out);
 
         // subbytes:
         round_out = ~round_out;
-        $display("sub %d %h", i , round_out);
+        //$display("sub %d %h", i , round_out);
 
         addKey = round_out ^ keys_out[i-1];
-        $display("addKey %d %h", i , addKey);
+        //$display("addKey %d %h", i , addKey);
 
         initial_addKey = addKey;
         // mix cols:
@@ -110,12 +107,12 @@ task golden_model(output logic [15:0] key_in, output logic [15:0] ciphertext_in,
         else 
             addKey[7:0] = (addKey[7:0] << 1) ^ 8'b00011011;
         
-        $display("mix cols %d %h", i, addKey);
+        //$display("mix cols %d %h", i, addKey);
 
 
       round_out = (i == 1) ? initial_addKey: addKey;
         round_in = round_out;
-        $display("Out: %d %h", i, round_out);
+        //$display("Out: %d %h", i, round_out);
     end
     
     plaintext_check = round_out;
@@ -187,13 +184,13 @@ initial begin
         io_in[8] = i;
         @(posedge clock);
       plaintext[i*8+7-:8] = io_out[7:0];
-        $display("current %h", io_out[7:0]);
+        //$display("current %h", io_out[7:0]);
     end
     @(posedge clock);
   
     plaintext[15:8] = io_out[7:0];
 
-  $display("Ciphertext out %h %h", plaintext, plaintext_check);
+  $display("Plaintext out %h %h", plaintext, plaintext_check);
   
   assert(plaintext_check == plaintext);
 		

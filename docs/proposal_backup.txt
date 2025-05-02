@@ -1,0 +1,20 @@
+Project Title: Mini PRNG
+
+This project would implement a simple PRNG using a LFSR. 
+
+Technial:
+The module will take in a seed as an input. Then, I will implement a LFSR module 
+(series of flip flops on a chain with xor taps, shifting bits on each cycle). When the 
+seed input is ready, a user can press a button to generate a new random number for that
+seed. An LED will light up when the output is ready. 
+
+I/Os:
+[11:0] io_in 
+[11:0] io_out
+clock
+reset
+button input
+led
+Hardware Peripherals:
+None
+

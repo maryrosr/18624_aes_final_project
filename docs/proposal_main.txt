@@ -1,0 +1,32 @@
+Project Title: Mini AES
+
+Implementing AES decryption with a limited number of rounds. 
+
+Technial:
+
+This module will decrypt an inputed cipher text, by using a version of 
+AES with a reduced number of rounds. To do this, I will implement an inverse S-box, 
+perform the reverse of the shift rows step and the mix columns step. Also, 
+I will need to derive the correct key for each round, and implement an fsm in order to
+pipeline the different rounds, and reduce the amount of FFs needed. The user can
+press a button when the input is ready, and the led will light up when the output 
+is ready. 
+
+I/Os:
+[11:0] io_in 
+[11:0] io_out
+clock
+reset
+button
+led
+
+Hardware Peripherals:
+None
+
+Module Header: 
+module mini_aes 
+#(parameter WIDTH = 128) // This parameter would depend on what can fit on the chip
+    (input logic clk, rst_n, go,
+    input logic [WIDTH-1:0] ciphertext, key,
+    output logic [WIDTH-1:0] plaintext,
+    output logic ready);

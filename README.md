@@ -34,8 +34,6 @@
 
 # Final Project
 
-This is an example outline you can modify and use in your final project submission. You are not required to use this exact template
-
 ## Mini AES
 
 I chose to implement "mini" AES decryption. My AES decryption module will take in a 16-bit key and a 16 bit ciphertext and output a 16 bit plaintext. In order for AES to function on 16 bit inputs, I simplified some of the traditional AES algorithms to work on bits instead of bytes. However, my implementation is reversible - given a decrypted plaintext and key, if encrypted using the inverse of my module, it will generate the same ciphertext the plaintext was decrypted from. 
